@@ -110,15 +110,15 @@
         <!-- Techo -->
         <a-plane position="0 3 -4" rotation="90 0 0" width="8" height="12" color="#14283d"></a-plane>
 
-        <!-- Iluminación -->
-        <a-entity light="type: ambient; intensity: 0.6"></a-entity>
-        <a-entity light="type: point; intensity: 1.2; color: #aaddff" position="0 2.8 -4"></a-entity>
-        <a-entity id="luz-alarma" light="type: point; intensity: 2.5; color: #ff0000" position="1.6 2.5 -2" visible="false"></a-entity>
+        <!-- Iluminación fuerte para evitar oscuridad -->
+        <a-entity light="type: ambient; intensity: 1.0"></a-entity>
+        <a-entity light="type: directional; intensity: 0.8" position="0 4 2"></a-entity>
+        <a-entity id="luz-alarma" light="type: point; intensity: 3.0; color: #ff0000" position="1.6 2.5 -2" visible="false"></a-entity>
 
         <!-- Título -->
         <a-text value="CENTRO DE DATOS - ADLER VEGA" position="0 2.3 -9.7" align="center" width="6" color="#00e5ff"></a-text>
 
-        <!-- Modelos Racks directos por URL -->
+        <!-- LOS 8 RACKS (Con modelo GLB e intento de carga directa) -->
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 01; detalle: SERVIDORES WEB - ACTIVO; estado: ok" position="-1.6 0 -2" rotation="0 90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 02; detalle: BASE DE DATOS - ACTIVO; estado: ok" position="-1.6 0 -4" rotation="0 90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 03; detalle: MONITOREO - ACTIVO; estado: ok" position="-1.6 0 -6" rotation="0 90 0"></a-entity>
@@ -129,7 +129,7 @@
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 07; detalle: APPS - ACTIVO; estado: ok" position="1.6 0 -6" rotation="0 -90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 08; detalle: STORAGE - ACTIVO; estado: ok" position="1.6 0 -8" rotation="0 -90 0"></a-entity>
 
-        <!-- Escritorio y Router directos por URL -->
+        <!-- Escritorio y Router -->
         <a-entity gltf-model="models/escritorio.glb" position="2.8 0.786 1.1" rotation="0 0.1 0"></a-entity>
         <a-entity gltf-model="models/wifi_router.glb" position="3.35 1.60 1.5" rotation="0 180 0" scale="1.4 1.4 1.4"></a-entity>
 
