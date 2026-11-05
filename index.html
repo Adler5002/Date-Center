@@ -64,13 +64,14 @@
 
 <body>
 
-    <!-- ===== INTERFAZ HUD SUPERIOR ORIGINAL ===== -->
+    <!-- ===== INTERFAZ HUD SUPERIOR ORIGINAL + BOTÓN DE ALARMA AGREGADO ===== -->
     <div class="hud">
         <h2>ESPOCH | Centro de Datos VR</h2>
         <p>W A S D: caminar · Ratón: mirar · Clic o punto central: seleccionar rack.</p>
         <p>8 racks · CRAC · piso técnico · alarma · 3 modelos GLB</p>
         <a href="ar.html" target="_blank">Abrir realidad aumentada</a>
         <button type="button" id="gaze">Activar mirada 1,5 s</button>
+        <button type="button" id="alarm-btn">Activar / Desactivar Alarma</button>
         <button type="button" id="stats">Mostrar / ocultar FPS</button>
         <button type="button" id="reset">Volver a entrada</button>
     </div>
@@ -85,12 +86,12 @@
     <!-- ===== ESCENA 3D ===== -->
     <a-scene background="color: #05070a">
 
-        <!-- Assets de los modelos 3D GLB (incluyendo rack.glb) -->
+        <!-- Assets de los modelos 3D GLB -->
         <a-assets>
-            <a-asset-item id="rack-glb"       src="Models/rack.glb"></a-asset-item>
+            <a-asset-item id="rack-glb"      src="Models/rack.glb"></a-asset-item>
             <a-asset-item id="servidores-glb" src="Models/servers.glb"></a-asset-item>
             <a-asset-item id="escritorio-glb" src="Models/escritorio.glb"></a-asset-item>
-            <a-asset-item id="router-glb"     src="Models/wifi_router.glb"></a-asset-item>
+            <a-asset-item id="router-glb"    src="Models/wifi_router.glb"></a-asset-item>
         </a-assets>
 
         <!-- ===== PUERTA DE ACCESO ===== -->
@@ -154,6 +155,8 @@
         <!-- ===== ILUMINACIÓN ===== -->
         <a-entity light="type: ambient; intensity: 0.4"></a-entity>
         <a-entity light="type: point; intensity: 0.8; color: #aaddff" position="0 2.8 -4"></a-entity>
+        <!-- Luz de alarma interactiva (inicialmente oculta/apagada) -->
+        <a-entity id="luz-alarma" light="type: point; intensity: 2.5; color: #ff0000" position="1.6 2.5 -2" visible="false"></a-entity>
 
         <!-- ===== TÍTULO EN PARED ===== -->
         <a-text
@@ -180,8 +183,8 @@
         <a-gltf-model src="#escritorio-glb" position="2.8 0.786 1.1" rotation="0 0.1 0" scale="1 1 1"></a-gltf-model>
         <a-gltf-model src="#router-glb"     position="3.35 1.60 1.5" rotation="0 180 0" scale="1.4 1.4 1.4"></a-gltf-model>
 
-        <!-- ===== CÁMARA ===== -->
-        <a-camera position="0 1.6 1">
+        <!-- ===== CÁMARA (Con ID para permitir el botón Volver a entrada) ===== -->
+        <a-camera id="camara-principal" position="0 1.6 1">
             <a-cursor raycaster="objects: .interactive" fuse="false" color="#5fe9ff"></a-cursor>
         </a-camera>
 
@@ -190,6 +193,11 @@
     <!-- ===== LÓGICA DE LOS BOTONES ===== -->
     <script>
         document.getElementById('reset').addEventListener('click', function () {
+            const camara = document.getElementById('camara-principal');
+            if(camara) {
+                camara.setAttribute('position', '0 1.6 1');
+                camara.setAttribute('rotation', '0 0 0');
+            }
             const panelInfo = document.getElementById('detalle');
             panelInfo.classList.remove('hide');
             panelInfo.innerHTML = '<strong>Bienvenido al laboratorio - Adler Vega</strong>' +
@@ -207,6 +215,23 @@
                 this.style.background = '#28a745';
             } else {
                 this.style.background = '#15576b';
+            }
+        });
+
+        // Botón de Alarma interactivo
+        let alarmaActiva = false;
+        document.getElementById('alarm-btn').addEventListener('click', function () {
+            alarmaActiva = !alarmaActiva;
+            const luzAlarma = document.getElementById('luz-alarma');
+            if (luzAlarma) {
+                luzAlarma.setAttribute('visible', alarmaActiva);
+            }
+            if (alarmaActiva) {
+                this.style.background = '#ff4444';
+                this.innerText = 'Alarma Activada (ON)';
+            } else {
+                this.style.background = '#15576b';
+                this.innerText = 'Activar / Desactivar Alarma';
             }
         });
 
