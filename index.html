@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centro de Datos VR - Adler Vega</title>
 
-    <!-- A-Frame -->
+    <!-- A-Frame VR -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 
     <script>
         AFRAME.registerComponent('info-rack', {
@@ -53,12 +54,10 @@
             }
         });
     </script>
-
-    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+    <!-- HUD SUPERIOR -->
     <div class="hud">
         <h2>ESPOCH | Centro de Datos VR</h2>
         <p>W A S D: caminar · Ratón: mirar · Clic o punto central: seleccionar rack.</p>
@@ -70,15 +69,17 @@
         <button type="button" id="reset">Volver a entrada</button>
     </div>
 
+    <!-- PANEL INFERIOR -->
     <div class="info" id="detalle">
         <strong>Bienvenido al laboratorio - Adler Vega</strong>
         <p>Seleccione un rack para consultar su función y estado. Busque el equipo con FALLA.</p>
         <p class="small">Simulación educativa. Use un navegador compatible con WebXR para entrar en VR.</p>
     </div>
 
+    <!-- ESCENA 3D -->
     <a-scene background="color: #05070a">
 
-        <!-- Puerta de acceso -->
+        <!-- Puerta -->
         <a-box position="0 1 1.91" width="1.2" height="2" depth="0.04" color="#5a3818"></a-box>
         <a-sphere position="0.43 1 1.81" radius="0.055" color="#f5c542"></a-sphere>
         <a-text value="ACCESO AL CENTRO DE DATOS" position="0 2.35 1.78" rotation="0 180 0" align="center" width="3" color="#ffffff"></a-text>
@@ -89,17 +90,9 @@
         <a-box position="-3 0.65 1.09" width="0.95" height="0.6" depth="0.02" color="#3c4956"></a-box>
         <a-text value="CRAC - CLIMATIZACION" position="-3 2 1.05" rotation="0 180 0" align="center" width="2.3" color="#00e5ff"></a-text>
 
-        <!-- Piso -->
+        <!-- Piso y Techo -->
         <a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="12" color="#3b526d"></a-plane>
-
-        <!-- Cuadrícula -->
-        <a-box position="-3 0.012 -4" width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="-2 0.012 -4" width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="-1 0.012 -4" width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="0 0.012 -4"  width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="1 0.012 -4"  width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="2 0.012 -4"  width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
-        <a-box position="3 0.012 -4"  width="0.012" height="0.012" depth="12" color="#6c7d93"></a-box>
+        <a-plane position="0 3 -4" rotation="90 0 0" width="8" height="12" color="#14283d"></a-plane>
 
         <!-- Paredes -->
         <a-box position="0 1.5 -10" width="8" height="3" depth="0.2" color="#1a3554"></a-box>
@@ -107,10 +100,7 @@
         <a-box position="-4 1.5 -4" width="0.2" height="3" depth="12" color="#1a3554"></a-box>
         <a-box position="4 1.5 -4" width="0.2" height="3" depth="12" color="#1a3554"></a-box>
 
-        <!-- Techo -->
-        <a-plane position="0 3 -4" rotation="90 0 0" width="8" height="12" color="#14283d"></a-plane>
-
-        <!-- Iluminación fuerte para evitar oscuridad -->
+        <!-- Luces -->
         <a-entity light="type: ambient; intensity: 1.0"></a-entity>
         <a-entity light="type: directional; intensity: 0.8" position="0 4 2"></a-entity>
         <a-entity id="luz-alarma" light="type: point; intensity: 3.0; color: #ff0000" position="1.6 2.5 -2" visible="false"></a-entity>
@@ -118,7 +108,7 @@
         <!-- Título -->
         <a-text value="CENTRO DE DATOS - ADLER VEGA" position="0 2.3 -9.7" align="center" width="6" color="#00e5ff"></a-text>
 
-        <!-- LOS 8 RACKS (Con modelo GLB e intento de carga directa) -->
+        <!-- RACKS -->
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 01; detalle: SERVIDORES WEB - ACTIVO; estado: ok" position="-1.6 0 -2" rotation="0 90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 02; detalle: BASE DE DATOS - ACTIVO; estado: ok" position="-1.6 0 -4" rotation="0 90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 03; detalle: MONITOREO - ACTIVO; estado: ok" position="-1.6 0 -6" rotation="0 90 0"></a-entity>
@@ -129,7 +119,7 @@
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 07; detalle: APPS - ACTIVO; estado: ok" position="1.6 0 -6" rotation="0 -90 0"></a-entity>
         <a-entity gltf-model="models/rack.glb" info-rack="titulo: RACK 08; detalle: STORAGE - ACTIVO; estado: ok" position="1.6 0 -8" rotation="0 -90 0"></a-entity>
 
-        <!-- Escritorio y Router -->
+        <!-- Mobiliario -->
         <a-entity gltf-model="models/escritorio.glb" position="2.8 0.786 1.1" rotation="0 0.1 0"></a-entity>
         <a-entity gltf-model="models/wifi_router.glb" position="3.35 1.60 1.5" rotation="0 180 0" scale="1.4 1.4 1.4"></a-entity>
 
@@ -140,6 +130,7 @@
 
     </a-scene>
 
+    <!-- SCRIPTS DE CONTROL -->
     <script>
         document.getElementById('reset').addEventListener('click', function () {
             const camara = document.getElementById('camara-principal');
