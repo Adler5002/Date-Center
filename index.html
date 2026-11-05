@@ -8,7 +8,7 @@
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-    <!-- Componente interactivo info-rack aplicado directamente a los modelos GLB de los racks -->
+    <!-- Componente interactivo info-rack -->
     <script>
         AFRAME.registerComponent('info-rack', {
             schema: {
@@ -34,7 +34,6 @@
                     const detalleText = attrData.detalle || 'ACTIVO';
                     const estadoVal = attrData.estado || 'ok';
 
-                    // Actualizar texto de la tarjeta 3D flotante
                     panel.setAttribute('text', {
                         value: tituloText + '\n' + detalleText,
                         color: (estadoVal === 'falla') ? '#ff4444' : '#63e5ff',
@@ -43,7 +42,6 @@
                     });
                     panel.setAttribute('visible', !panel.getAttribute('visible'));
 
-                    // Actualizar el panel de información abajo a la izquierda (.info)
                     const panelInfo = document.getElementById('detalle');
                     if (panelInfo) {
                         panelInfo.classList.remove('hide');
@@ -85,13 +83,6 @@
 
     <!-- ===== ESCENA 3D ===== -->
     <a-scene background="color: #05070a">
-
-        <!-- Assets de los modelos 3D GLB existentes en la carpeta models -->
-        <a-assets>
-            <a-asset-item id="rack-glb"      src="models/rack.glb"></a-asset-item>
-            <a-asset-item id="escritorio-glb" src="models/escritorio.glb"></a-asset-item>
-            <a-asset-item id="router-glb"    src="models/wifi_router.glb"></a-asset-item>
-        </a-assets>
 
         <!-- ===== PUERTA DE ACCESO ===== -->
         <a-box position="0 1 1.91" width="1.2" height="2" depth="0.04" color="#5a3818"></a-box>
@@ -152,8 +143,8 @@
         <a-plane position="0 3 -4" rotation="90 0 0" width="8" height="12" color="#14283d"></a-plane>
 
         <!-- ===== ILUMINACIÓN ===== -->
-        <a-entity light="type: ambient; intensity: 0.4"></a-entity>
-        <a-entity light="type: point; intensity: 0.8; color: #aaddff" position="0 2.8 -4"></a-entity>
+        <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+        <a-entity light="type: point; intensity: 1.0; color: #aaddff" position="0 2.8 -4"></a-entity>
         <!-- Luz de alarma interactiva -->
         <a-entity id="luz-alarma" light="type: point; intensity: 2.5; color: #ff0000" position="1.6 2.5 -2" visible="false"></a-entity>
 
@@ -166,20 +157,20 @@
             color="#00e5ff">
         </a-text>
 
-        <!-- ===== LOS 8 RACKS UTILIZANDO EL MODELO RACK.GLB ===== -->
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 01; detalle: SERVIDORES WEB - ACTIVO; estado: ok" position="-1.6 0 -2" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 02; detalle: BASE DE DATOS - ACTIVO; estado: ok" position="-1.6 0 -4" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 03; detalle: MONITOREO - ACTIVO; estado: ok" position="-1.6 0 -6" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 04; detalle: RESPALDO - ACTIVO; estado: ok" position="-1.6 0 -8" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
+        <!-- ===== LOS 8 RACKS CON CARGA DIRECTA DE MODELOS ===== -->
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 01; detalle: SERVIDORES WEB - ACTIVO; estado: ok" position="-1.6 0 -2" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 02; detalle: BASE DE DATOS - ACTIVO; estado: ok" position="-1.6 0 -4" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 03; detalle: MONITOREO - ACTIVO; estado: ok" position="-1.6 0 -6" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 04; detalle: RESPALDO - ACTIVO; estado: ok" position="-1.6 0 -8" rotation="0 90 0" scale="1 1 1"></a-gltf-model>
 
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 05; detalle: ALMACENAMIENTO - FALLA; estado: falla" position="1.6 0 -2" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 06; detalle: CLOUD - ACTIVO; estado: ok" position="1.6 0 -4" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 07; detalle: APPS - ACTIVO; estado: ok" position="1.6 0 -6" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#rack-glb" info-rack="titulo: RACK 08; detalle: STORAGE - ACTIVO; estado: ok" position="1.6 0 -8" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 05; detalle: ALMACENAMIENTO - FALLA; estado: falla" position="1.6 0 -2" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 06; detalle: CLOUD - ACTIVO; estado: ok" position="1.6 0 -4" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 07; detalle: APPS - ACTIVO; estado: ok" position="1.6 0 -6" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/rack.glb" info-rack="titulo: RACK 08; detalle: STORAGE - ACTIVO; estado: ok" position="1.6 0 -8" rotation="0 -90 0" scale="1 1 1"></a-gltf-model>
 
-        <!-- ===== OTROS MODELOS 3D GLB ===== -->
-        <a-gltf-model src="#escritorio-glb" position="2.8 0.786 1.1" rotation="0 0.1 0" scale="1 1 1"></a-gltf-model>
-        <a-gltf-model src="#router-glb"     position="3.35 1.60 1.5" rotation="0 180 0" scale="1.4 1.4 1.4"></a-gltf-model>
+        <!-- ===== OTROS MODELOS 3D GLB CON CARGA DIRECTA ===== -->
+        <a-gltf-model src="models/escritorio.glb" position="2.8 0.786 1.1" rotation="0 0.1 0" scale="1 1 1"></a-gltf-model>
+        <a-gltf-model src="models/wifi_router.glb" position="3.35 1.60 1.5" rotation="0 180 0" scale="1.4 1.4 1.4"></a-gltf-model>
 
         <!-- ===== CÁMARA ===== -->
         <a-camera id="camara-principal" position="0 1.6 1">
