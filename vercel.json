@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/(.*).glb",
+      "source": "/(.*)\\.glb",
       "headers": [
         {
           "key": "Content-Type",
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "source": "/(.*).mind",
+      "source": "/(.*)\\.mind",
       "headers": [
         {
           "key": "Content-Type",
