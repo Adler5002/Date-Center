@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Centro de Datos - Realidad Aumentada (AR)</title>
+    
+    <!-- A-Frame y MindAR -->
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    
+    <!-- Estilos CSS para el menú superior AR -->
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui;
+        }
+        .bar {
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            z-index: 9999;
+            background: #10283de8;
+            color: white;
+            border-radius: 9px;
+            padding: 12px;
+            font-size: 14px;
+        }
+        .bar a {
+            color: #82eaff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .bar button {
+            background: #15576b;
+            color: white;
+            border: 1px solid #65bdd0;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-right: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .bar button:hover {
+            background: #1e7590;
+        }
+        .bar small {
+            display: block;
+            margin-top: 5px;
+            color: #c7dce6;
+        }
+    </style>
+</head>
+<body style="margin:0; overflow:hidden;">
+
+    <!-- Menú superior flotante para alternar modelos en AR -->
+    <div class="bar">
+        <b>Centro de Datos - AR</b> | <a href="index.html">Volver a VR</a>
+        <div style="margin-top:7px">
+            <button onclick="tipoAR('servers')">Rack Servidores</button>
+            <button onclick="tipoAR('router')">Router WiFi</button>
+            <button onclick="tipoAR('desk')">Escritorio</button>
+        </div>
+        <small>Autorice la cámara y apunte al marcador impreso/pantalla. Use HTTPS en Android.</small>
+    </div>
+
+    <!-- Escena MindAR con A-Frame -->
+    <a-scene mindar-image="imageTargetSrc: targets.mind;"
+             renderer="colorManagement: true" 
+             vr-mode-ui="enabled: false"
+             device-orientation-permission-ui="enabled: false">
+        
+        <!-- Precarga de recursos apuntando a la carpeta Models/ exactos -->
+        <a-assets>
+            <a-asset-item id="modelo-servidores" src="Models/rack.glb"></a-asset-item>
+            <a-asset-item id="modelo-router"     src="Models/wifi_router.glb"></a-asset-item>
+            <a-asset-item id="modelo-escritorio" src="Models/escritorio.glb"></a-asset-item>
+        </a-assets>
+
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Anclaje al objetivo de imagen (Target 0) -->
+        <a-entity mindar-image-target="targetIndex: 0">
+            
+            <!-- Modelo 1: Rack Servidores (Visible por defecto) -->
+            <a-entity id="ar-servers" visible="true">
+                <a-gltf-model src="#modelo-servidores" position="0 -0.28 0.1" scale="0.65 0.65 0.65" rotation="0 0 0"></a-gltf-model>
+            </a-entity>
+
+            <!-- Modelo 2: Router WiFi (Oculto inicialmente) -->
+            <a-entity id="ar-router" visible="false">
+                <a-gltf-model src="#modelo-router" position="0 -0.15 0.1" scale="2 2 2" rotation="0 0 0"></a-gltf-model>
+            </a-entity>
+
+            <!-- Modelo 3: Escritorio (Oculto inicialmente) -->
+            <a-entity id="ar-desk" visible="false">
+                <a-gltf-model src="#modelo-escritorio" position="0 -0.3 0.1" scale="0.32 0.32 0.32" rotation="0 180 0"></a-gltf-model>
+            </a-entity>
+
+            <!-- Panel de Estado Informativo AR flotando sobre el marcador -->
+            <a-plane width="1.1" height="0.28" color="#071c2b" opacity="0.9" position="0 0.47 0.12"></a-plane>
+            <a-text id="ar-estado" value="RACK SERVIDORES | ACTIVO" align="center" width="1.8" color="#6dffb5" position="0 0.47 0.14"></a-text>
+
+        </a-entity>
+    </a-scene>
+
+    <!-- Script para alternar dinámicamente los modelos GLB -->
+    <script>
+        function tipoAR(tipo) {
+            const ids = { servers: 'ar-servers', router: 'ar-router', desk: 'ar-desk' };
+            Object.keys(ids).forEach(k => {
+                document.getElementById(ids[k]).setAttribute('visible', k === tipo);
+            });
+            const txt = { 
+                servers: 'RACK SERVIDORES | ACTIVO', 
+                router: 'ROUTER WIFI | ACTIVO', 
+                desk: 'PUESTO TECNICO | ACTIVO' 
+            };
+            document.querySelector('#ar-estado').setAttribute('value', txt[tipo]);
+        }
+    </script>
+</body>
+</html>
